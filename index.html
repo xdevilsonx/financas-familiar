@@ -5,362 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#4a90d9">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Finanças Familiar</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-      background: #f5f7fb;
-      padding-bottom: 70px;
-    }
-
-    /* Header */
-    .header {
-      background: linear-gradient(135deg, #4a90d9, #357abd);
-      color: white;
-      padding: 20px 16px;
-      border-radius: 0 0 24px 24px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .header h1 {
-      font-size: 1.6rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .saldo-container {
-      background: rgba(255,255,255,0.15);
-      border-radius: 16px;
-      padding: 12px;
-      margin-top: 12px;
-    }
-
-    .saldo-label {
-      font-size: 0.8rem;
-      opacity: 0.9;
-    }
-
-    .saldo-valor {
-      font-size: 1.8rem;
-      font-weight: bold;
-    }
-
-    /* Tabs */
-    .tabs {
-      display: flex;
-      background: white;
-      margin: 16px 16px 0 16px;
-      border-radius: 32px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      overflow: hidden;
-    }
-
-    .tab {
-      flex: 1;
-      text-align: center;
-      padding: 12px;
-      background: none;
-      border: none;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #666;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .tab.active {
-      background: #4a90d9;
-      color: white;
-    }
-
-    /* Container das telas */
-    .screen {
-      display: none;
-      padding: 16px;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .screen.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Cards */
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 20px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 16px;
-      color: #333;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* Formulário */
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 500;
-      color: #555;
-      font-size: 0.85rem;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-family: inherit;
-      background: #fafafa;
-    }
-
-    input:focus, select:focus {
-      outline: none;
-      border-color: #4a90d9;
-      background: white;
-    }
-
-    .btn {
-      width: 100%;
-      padding: 14px;
-      background: #4a90d9;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .btn:active {
-      background: #357abd;
-      transform: scale(0.98);
-    }
-
-    .btn-despesa {
-      background: #e74c3c;
-    }
-
-    .btn-despesa:active {
-      background: #c0392b;
-    }
-
-    .btn-receita {
-      background: #2ecc71;
-    }
-
-    .btn-receita:active {
-      background: #27ae60;
-    }
-
-    /* Botões de tipo */
-    .tipo-buttons {
-      display: flex;
-      gap: 12px;
-    }
-
-    .tipo-btn {
-      flex: 1;
-      padding: 12px;
-      border: 2px solid #ddd;
-      background: white;
-      border-radius: 12px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .tipo-btn.despesa.active {
-      background: #e74c3c;
-      border-color: #e74c3c;
-      color: white;
-    }
-
-    .tipo-btn.receita.active {
-      background: #2ecc71;
-      border-color: #2ecc71;
-      color: white;
-    }
-
-    /* Cards de resumo */
-    .resumo-cards {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .resumo-card {
-      flex: 1;
-      background: white;
-      border-radius: 16px;
-      padding: 12px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Roboto, sans-serif; background: #f5f7fb; padding-bottom: 70px; }
+    .header { background: linear-gradient(135deg, #4a90d9, #357abd); color: white; padding: 20px 16px; border-radius: 0 0 24px 24px; }
+    .header h1 { font-size: 1.6rem; }
+    .saldo-container { background: rgba(255,255,255,0.15); border-radius: 16px; padding: 12px; margin-top: 12px; }
+    .saldo-valor { font-size: 1.8rem; font-weight: bold; }
+    .tabs { display: flex; background: white; margin: 16px 16px 0; border-radius: 32px; overflow: hidden; }
+    .tab { flex: 1; text-align: center; padding: 12px; background: none; border: none; font-weight: 600; color: #666; cursor: pointer; }
+    .tab.active { background: #4a90d9; color: white; }
+    .screen { display: none; padding: 16px; }
+    .screen.active { display: block; }
+    .card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .card-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 16px; color: #333; }
+    .form-group { margin-bottom: 16px; }
+    label { display: block; margin-bottom: 6px; font-weight: 500; color: #555; font-size: 0.85rem; }
+    input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; background: #fafafa; }
+    .btn { width: 100%; padding: 14px; background: #4a90d9; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
+    .btn:active { transform: scale(0.98); }
+    .tipo-buttons { display: flex; gap: 12px; }
+    .tipo-btn { flex: 1; padding: 12px; border: 2px solid #ddd; background: white; border-radius: 12px; font-weight: bold; cursor: pointer; }
+    .tipo-btn.despesa.active { background: #e74c3c; border-color: #e74c3c; color: white; }
+    .tipo-btn.receita.active { background: #2ecc71; border-color: #2ecc71; color: white; }
+    .resumo-cards { display: flex; gap: 12px; margin-bottom: 16px; }
+    .resumo-card { flex: 1; background: white; border-radius: 16px; padding: 12px; text-align: center; }
     .resumo-card.receitas { border-left: 4px solid #2ecc71; }
     .resumo-card.despesas { border-left: 4px solid #e74c3c; }
     .resumo-card.saldo { border-left: 4px solid #4a90d9; }
-
-    .resumo-valor {
-      font-size: 1.4rem;
-      font-weight: bold;
-    }
-
-    .resumo-label {
-      font-size: 0.75rem;
-      color: #666;
-    }
-
-    /* Lista de categorias no relatório */
-    .categoria-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .categoria-nome {
-      font-weight: 500;
-    }
-
-    .categoria-valor {
-      color: #e74c3c;
-      font-weight: bold;
-    }
-
-    /* Histórico */
-    .lancamento-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .lancamento-info {
-      flex: 1;
-    }
-
-    .lancamento-descricao {
-      font-weight: 500;
-    }
-
-    .lancamento-data {
-      font-size: 0.7rem;
-      color: #888;
-    }
-
-    .lancamento-categoria {
-      font-size: 0.7rem;
-      background: #f0f0f0;
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 12px;
-      margin-top: 4px;
-    }
-
-    .lancamento-valor {
-      font-weight: bold;
-      font-size: 1rem;
-    }
-
-    .lancamento-valor.receita {
-      color: #2ecc71;
-    }
-
-    .lancamento-valor.despesa {
-      color: #e74c3c;
-    }
-
-    /* Filtro */
-    .filtro-row {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .filtro-row select {
-      flex: 1;
-      margin-bottom: 0;
-    }
-
-    /* Loading */
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: #888;
-    }
-
-    /* Mensagem de erro */
-    .error-msg {
-      background: #fee;
-      color: #c0392b;
-      padding: 12px;
-      border-radius: 12px;
-      margin-bottom: 16px;
-      font-size: 0.85rem;
-    }
-
-    .success-msg {
-      background: #e8f8e8;
-      color: #27ae60;
-      padding: 12px;
-      border-radius: 12px;
-      margin-bottom: 16px;
-      font-size: 0.85rem;
-    }
-
-    /* Configuração */
-    .config-info {
-      background: #e8f0fe;
-      padding: 12px;
-      border-radius: 12px;
-      margin-bottom: 16px;
-      font-size: 0.85rem;
-      word-break: break-all;
-    }
-
-    .url-input {
-      font-family: monospace;
-      font-size: 0.7rem;
-      background: #f0f0f0;
-      padding: 8px;
-      border-radius: 8px;
-    }
+    .resumo-valor { font-size: 1.4rem; font-weight: bold; }
+    .categoria-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+    .lancamento-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
+    .lancamento-descricao { font-weight: 500; }
+    .lancamento-data { font-size: 0.7rem; color: #888; }
+    .lancamento-valor.receita { color: #2ecc71; }
+    .lancamento-valor.despesa { color: #e74c3c; }
+    .filtro-row { display: flex; gap: 12px; margin-bottom: 16px; }
+    .filtro-row select { flex: 1; }
+    .error-msg { background: #fee; color: #c0392b; padding: 12px; border-radius: 12px; margin-bottom: 16px; }
+    .success-msg { background: #e8f8e8; color: #27ae60; padding: 12px; border-radius: 12px; margin-bottom: 16px; }
+    .loading { text-align: center; padding: 40px; color: #888; }
   </style>
 </head>
 <body>
   <div class="header">
     <h1>💰 Finanças Familiar</h1>
-    <div class="saldo-container" id="saldoHeader">
-      <div class="saldo-label">Saldo atual</div>
+    <div class="saldo-container">
+      <div>Saldo atual</div>
       <div class="saldo-valor" id="saldoHeaderValor">R$ 0,00</div>
     </div>
   </div>
@@ -369,25 +61,20 @@
     <button class="tab active" data-screen="lancar">➕ Lançar</button>
     <button class="tab" data-screen="relatorio">📊 Relatório</button>
     <button class="tab" data-screen="historico">📋 Histórico</button>
-    <button class="tab" data-screen="config">⚙️ Config</button>
   </div>
 
-  <!-- Tela Lançar -->
   <div id="screen-lancar" class="screen active">
     <div class="card">
       <div class="card-title">📝 Novo Lançamento</div>
       <div id="lancar-mensagem"></div>
-      
       <div class="form-group">
         <label>📅 Data</label>
-        <input type="date" id="data" value="">
+        <input type="date" id="data">
       </div>
-      
       <div class="form-group">
         <label>📌 Descrição</label>
         <input type="text" id="descricao" placeholder="Ex: Supermercado, Salário...">
       </div>
-      
       <div class="form-group">
         <label>📂 Categoria</label>
         <select id="categoria">
@@ -400,12 +87,10 @@
           <option value="Outros">📦 Outros</option>
         </select>
       </div>
-      
       <div class="form-group">
         <label>💰 Valor (R$)</label>
         <input type="number" id="valor" step="0.01" placeholder="0,00">
       </div>
-      
       <div class="form-group">
         <label>🔄 Tipo</label>
         <div class="tipo-buttons">
@@ -413,17 +98,14 @@
           <button type="button" class="tipo-btn receita" data-tipo="receita">💚 Receita</button>
         </div>
       </div>
-      
-      <button class="btn" id="btnSalvar">💾 Salvar Lançamento</button>
+      <button class="btn" id="btnSalvar">💾 Salvar</button>
     </div>
   </div>
 
-  <!-- Tela Relatório -->
   <div id="screen-relatorio" class="screen">
     <div class="card">
       <div class="card-title">📈 Resumo do Mês</div>
       <div id="relatorio-mensagem"></div>
-      
       <div class="filtro-row">
         <select id="mesFiltro">
           <option value="1">Janeiro</option><option value="2">Fevereiro</option>
@@ -434,29 +116,22 @@
           <option value="11">Novembro</option><option value="12">Dezembro</option>
         </select>
         <select id="anoFiltro">
-          <option value="2024">2024</option>
-          <option value="2025">2025</option>
-          <option value="2026">2026</option>
+          <option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option>
         </select>
         <button class="btn" id="btnAtualizarRelatorio" style="width: auto; padding: 12px 16px;">Atualizar</button>
       </div>
-      
       <div id="resumo-container"></div>
-      
       <div class="card-title" style="margin-top: 16px;">📊 Gastos por Categoria</div>
       <div id="categorias-container"></div>
     </div>
   </div>
 
-  <!-- Tela Histórico -->
   <div id="screen-historico" class="screen">
     <div class="card">
-      <div class="card-title">📋 Últimos Lançamentos</div>
+      <div class="card-title">📋 Lançamentos</div>
       <div id="historico-mensagem"></div>
-      
       <div class="filtro-row">
-        <select id="mesHistFiltro">
-          <option value="">Todos</option>
+        <select id="mesHistFiltro"><option value="">Todos</option>
           <option value="1">Janeiro</option><option value="2">Fevereiro</option>
           <option value="3">Março</option><option value="4">Abril</option>
           <option value="5">Maio</option><option value="6">Junho</option>
@@ -464,382 +139,146 @@
           <option value="9">Setembro</option><option value="10">Outubro</option>
           <option value="11">Novembro</option><option value="12">Dezembro</option>
         </select>
-        <select id="anoHistFiltro">
-          <option value="">Todos</option>
-          <option value="2024">2024</option>
-          <option value="2025">2025</option>
-          <option value="2026">2026</option>
+        <select id="anoHistFiltro"><option value="">Todos</option>
+          <option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option>
         </select>
         <button class="btn" id="btnFiltrarHistorico" style="width: auto; padding: 12px 16px;">Filtrar</button>
       </div>
-      
       <div id="historico-lista"></div>
     </div>
   </div>
 
-  <!-- Tela Configuração -->
-  <div id="screen-config" class="screen">
-    <div class="card">
-      <div class="card-title">🔧 Configuração</div>
-      
-      <div class="form-group">
-        <label>🌐 URL do Google Apps Script</label>
-        <input type="text" id="apiUrl" placeholder="https://script.google.com/macros/s/.../exec" style="font-family: monospace; font-size: 0.8rem;">
-        <small style="color: #666;">Cole a URL que você copiou do Apps Script após implantar</small>
-      </div>
-      
-      <button class="btn" id="btnSalvarUrl">💾 Salvar URL</button>
-      
-      <div class="card-title" style="margin-top: 24px;">📖 Passo a Passo</div>
-      <div style="font-size: 0.85rem; line-height: 1.6; color: #555;">
-        <p><strong>1️⃣ No computador:</strong> Abra a planilha do Google Sheets → Extensões → Apps Script</p>
-        <p><strong>2️⃣ Cole o código Code.gs</strong> que eu forneci e clique em 💾 Salvar</p>
-        <p><strong>3️⃣ Clique em "Implantar" → "Nova implantação"</strong></p>
-        <p><strong>4️⃣ Tipo: "App da Web"</strong> → Acesso: "Qualquer pessoa" → Implantar</p>
-        <p><strong>5️⃣ Copie a URL gerada</strong> (ex: https://script.google.com/macros/s/.../exec)</p>
-        <p><strong>6️⃣ Cole a URL aqui neste app</strong> e clique em Salvar</p>
-      </div>
-    </div>
-  </div>
-
   <script>
-    // ============================================================
-    // CONFIGURAÇÕES INICIAIS
-    // ============================================================
-    let API_URL = localStorage.getItem('apiUrl') || '';
-
-    // Preenche data atual no campo de data
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwc64y4yZEkubdxNnT_LEkNlofGYQOofl4XZaT2ze0-KSuY4aySjFwgWUq5v_1xdQji/exec';
+    
     document.getElementById('data').value = new Date().toISOString().split('T')[0];
 
-    // ============================================================
-    // FUNÇÕES DE API
-    // ============================================================
-    async function chamarAPI(action, params = {}) {
-      if (!API_URL) {
-        throw new Error('Configure a URL do Apps Script na aba Configuração');
-      }
-
+    async function apiCall(action, params = {}) {
       let url = API_URL + '?action=' + action;
       if (params.mes) url += '&mes=' + params.mes;
       if (params.ano) url += '&ano=' + params.ano;
-
-      const response = await fetch(url, {
-        method: 'GET',
-        mode: 'cors'
-      });
-      
-      if (!response.ok) throw new Error('Erro na requisição: ' + response.status);
+      const response = await fetch(url);
       return await response.json();
     }
 
-    async function salvarLancamento(lancamento) {
-      if (!API_URL) {
-        throw new Error('Configure a URL do Apps Script na aba Configuração');
-      }
-
+    async function salvarLancamento(data) {
       const response = await fetch(API_URL, {
         method: 'POST',
-        mode: 'cors',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(lancamento)
+        body: JSON.stringify(data)
       });
-      
-      if (!response.ok) throw new Error('Erro ao salvar: ' + response.status);
       return await response.json();
     }
 
-    // ============================================================
-    // ATUALIZAR SALDO NO HEADER
-    // ============================================================
-    async function atualizarSaldoHeader() {
-      if (!API_URL) return;
-      
-      try {
-        const hoje = new Date();
-        const mes = hoje.getMonth() + 1;
-        const ano = hoje.getFullYear();
-        const data = await chamarAPI('resumo', { mes, ano });
-        
-        if (data.ok && data.resumo) {
-          const saldo = data.resumo.saldo;
-          document.getElementById('saldoHeaderValor').innerHTML = 
-            `R$ ${saldo.toFixed(2).replace('.', ',')}`;
-          
-          if (saldo >= 0) {
-            document.getElementById('saldoHeaderValor').style.color = '#2ecc71';
-          } else {
-            document.getElementById('saldoHeaderValor').style.color = '#e74c3c';
-          }
-        }
-      } catch (err) {
-        console.error('Erro ao atualizar saldo:', err);
+    async function atualizarSaldo() {
+      const hoje = new Date();
+      const data = await apiCall('resumo', { mes: hoje.getMonth() + 1, ano: hoje.getFullYear() });
+      if (data.ok && data.resumo) {
+        const saldo = data.resumo.saldo;
+        document.getElementById('saldoHeaderValor').innerHTML = `R$ ${saldo.toFixed(2).replace('.', ',')}`;
+        document.getElementById('saldoHeaderValor').style.color = saldo >= 0 ? '#2ecc71' : '#e74c3c';
       }
     }
 
-    // ============================================================
-    // TELA DE RELATÓRIO
-    // ============================================================
     async function carregarRelatorio() {
-      const container = document.getElementById('resumo-container');
-      const categoriasContainer = document.getElementById('categorias-container');
-      const msgDiv = document.getElementById('relatorio-mensagem');
-      
       const mes = document.getElementById('mesFiltro').value;
       const ano = document.getElementById('anoFiltro').value;
+      const data = await apiCall('resumo', { mes, ano });
       
-      msgDiv.innerHTML = '<div class="loading">Carregando...</div>';
-      
-      try {
-        const data = await chamarAPI('resumo', { mes, ano });
-        
-        if (!data.ok) {
-          msgDiv.innerHTML = `<div class="error-msg">❌ ${data.erro}</div>`;
-          return;
-        }
-        
+      if (data.ok && data.resumo) {
         const r = data.resumo;
-        
-        // Resumo cards
-        container.innerHTML = `
+        document.getElementById('resumo-container').innerHTML = `
           <div class="resumo-cards">
-            <div class="resumo-card receitas">
-              <div class="resumo-valor" style="color:#2ecc71">R$ ${r.receitas.toFixed(2).replace('.',',')}</div>
-              <div class="resumo-label">💰 Receitas</div>
-            </div>
-            <div class="resumo-card despesas">
-              <div class="resumo-valor" style="color:#e74c3c">R$ ${r.despesas.toFixed(2).replace('.',',')}</div>
-              <div class="resumo-label">💸 Despesas</div>
-            </div>
-            <div class="resumo-card saldo">
-              <div class="resumo-valor" style="color:${r.saldo >= 0 ? '#2ecc71' : '#e74c3c'}">R$ ${r.saldo.toFixed(2).replace('.',',')}</div>
-              <div class="resumo-label">📊 Saldo</div>
-            </div>
-          </div>
-          <div style="text-align: center; font-size: 0.8rem; color: #666;">📆 Total: ${r.total} lançamentos</div>
-        `;
+            <div class="resumo-card receitas"><div class="resumo-valor" style="color:#2ecc71">R$ ${r.receitas.toFixed(2).replace('.',',')}</div><div>💰 Receitas</div></div>
+            <div class="resumo-card despesas"><div class="resumo-valor" style="color:#e74c3c">R$ ${r.despesas.toFixed(2).replace('.',',')}</div><div>💸 Despesas</div></div>
+            <div class="resumo-card saldo"><div class="resumo-valor" style="color:${r.saldo>=0?'#2ecc71':'#e74c3c'}">R$ ${r.saldo.toFixed(2).replace('.',',')}</div><div>📊 Saldo</div></div>
+          </div>`;
         
-        // Categorias
-        if (Object.keys(r.porCategoria).length === 0) {
-          categoriasContainer.innerHTML = '<div style="text-align:center; color:#888;">Nenhuma despesa no período</div>';
-        } else {
-          let html = '';
-          for (const [cat, valor] of Object.entries(r.porCategoria)) {
-            html += `
-              <div class="categoria-item">
-                <span class="categoria-nome">${cat}</span>
-                <span class="categoria-valor">R$ ${valor.toFixed(2).replace('.',',')}</span>
-              </div>
-            `;
-          }
-          categoriasContainer.innerHTML = html;
+        let catHtml = '';
+        for (const [cat, val] of Object.entries(r.porCategoria)) {
+          catHtml += `<div class="categoria-item"><span>${cat}</span><span style="color:#e74c3c">R$ ${val.toFixed(2).replace('.',',')}</span></div>`;
         }
-        
-        msgDiv.innerHTML = '';
-        
-      } catch (err) {
-        msgDiv.innerHTML = `<div class="error-msg">❌ Erro: ${err.message}</div>`;
+        document.getElementById('categorias-container').innerHTML = catHtml || '<div style="text-align:center;color:#888;">Nenhuma despesa</div>';
       }
     }
 
-    // ============================================================
-    // TELA DE HISTÓRICO
-    // ============================================================
     async function carregarHistorico() {
-      const listaDiv = document.getElementById('historico-lista');
-      const msgDiv = document.getElementById('historico-mensagem');
-      
       const mes = document.getElementById('mesHistFiltro').value;
       const ano = document.getElementById('anoHistFiltro').value;
+      const params = {};
+      if (mes) params.mes = mes;
+      if (ano) params.ano = ano;
+      const data = await apiCall('get', params);
       
-      msgDiv.innerHTML = '<div class="loading">Carregando...</div>';
-      
-      try {
-        const params = {};
-        if (mes) params.mes = parseInt(mes);
-        if (ano) params.ano = parseInt(ano);
-        
-        const data = await chamarAPI('get', params);
-        
-        if (!data.ok) {
-          msgDiv.innerHTML = `<div class="error-msg">❌ ${data.erro}</div>`;
+      if (data.ok && data.lancamentos) {
+        const lista = data.lancamentos.reverse();
+        if (lista.length === 0) {
+          document.getElementById('historico-lista').innerHTML = '<div style="text-align:center;padding:40px;color:#888;">Nenhum lançamento</div>';
           return;
         }
-        
-        if (data.lancamentos.length === 0) {
-          listaDiv.innerHTML = '<div style="text-align:center; color:#888; padding:40px;">Nenhum lançamento encontrado</div>';
-          msgDiv.innerHTML = '';
-          return;
-        }
-        
         let html = '';
-        data.lancamentos.reverse().forEach(l => {
-          const valorFormatado = `R$ ${l.valor.toFixed(2).replace('.',',')}`;
-          html += `
-            <div class="lancamento-item">
-              <div class="lancamento-info">
-                <div class="lancamento-descricao">${escapeHtml(l.descricao)}</div>
-                <div class="lancamento-data">${l.data} • ${l.categoria}</div>
-              </div>
-              <div class="lancamento-valor ${l.tipo}">${l.tipo === 'receita' ? '+' : '-'} ${valorFormatado}</div>
-            </div>
-          `;
-        });
-        
-        listaDiv.innerHTML = html;
-        msgDiv.innerHTML = '';
-        
-      } catch (err) {
-        msgDiv.innerHTML = `<div class="error-msg">❌ Erro: ${err.message}</div>`;
-      }
-    }
-
-    // ============================================================
-    // SALVAR LANÇAMENTO
-    // ============================================================
-    async function salvarLancamentoHandler() {
-      const msgDiv = document.getElementById('lancar-mensagem');
-      const btn = document.getElementById('btnSalvar');
-      
-      const data = document.getElementById('data').value;
-      const descricao = document.getElementById('descricao').value.trim();
-      const categoria = document.getElementById('categoria').value;
-      const valor = parseFloat(document.getElementById('valor').value);
-      const tipo = document.querySelector('.tipo-btn.active').dataset.tipo;
-      
-      if (!descricao) {
-        msgDiv.innerHTML = '<div class="error-msg">❌ Digite uma descrição</div>';
-        return;
-      }
-      
-      if (isNaN(valor) || valor <= 0) {
-        msgDiv.innerHTML = '<div class="error-msg">❌ Digite um valor válido (maior que zero)</div>';
-        return;
-      }
-      
-      btn.disabled = true;
-      btn.textContent = 'Salvando...';
-      msgDiv.innerHTML = '<div class="loading">Salvando...</div>';
-      
-      try {
-        const result = await salvarLancamento({
-          data,
-          descricao,
-          categoria,
-          valor,
-          tipo
-        });
-        
-        if (result.ok) {
-          msgDiv.innerHTML = '<div class="success-msg">✅ Lançamento salvo com sucesso!</div>';
-          document.getElementById('descricao').value = '';
-          document.getElementById('valor').value = '';
-          document.getElementById('data').value = new Date().toISOString().split('T')[0];
-          
-          // Atualiza saldo e histórico
-          atualizarSaldoHeader();
-          if (document.querySelector('.tab.active').dataset.screen === 'historico') {
-            carregarHistorico();
-          }
-          if (document.querySelector('.tab.active').dataset.screen === 'relatorio') {
-            carregarRelatorio();
-          }
-          
-          setTimeout(() => {
-            msgDiv.innerHTML = '';
-          }, 3000);
-        } else {
-          msgDiv.innerHTML = `<div class="error-msg">❌ ${result.erro}</div>`;
+        for (const l of lista) {
+          html += `<div class="lancamento-item">
+            <div><div class="lancamento-descricao">${l.descricao}</div><div class="lancamento-data">${l.data} • ${l.categoria}</div></div>
+            <div class="lancamento-valor ${l.tipo}">${l.tipo === 'receita' ? '+' : '-'} R$ ${l.valor.toFixed(2).replace('.',',')}</div>
+          </div>`;
         }
-      } catch (err) {
-        msgDiv.innerHTML = `<div class="error-msg">❌ Erro: ${err.message}</div>`;
-      } finally {
-        btn.disabled = false;
-        btn.textContent = '💾 Salvar Lançamento';
+        document.getElementById('historico-lista').innerHTML = html;
       }
     }
 
-    // ============================================================
-    // CONFIGURAÇÃO
-    // ============================================================
-    function carregarConfiguracao() {
-      document.getElementById('apiUrl').value = API_URL;
-    }
-    
-    function salvarConfiguracao() {
-      const url = document.getElementById('apiUrl').value.trim();
-      if (!url) {
-        alert('Digite a URL do Apps Script');
-        return;
-      }
-      localStorage.setItem('apiUrl', url);
-      API_URL = url;
-      alert('✅ URL salva! Agora vá para a aba Relatório ou Histórico para testar.');
+    document.getElementById('btnSalvar').onclick = async () => {
+      const msgDiv = document.getElementById('lancar-mensagem');
+      const descricao = document.getElementById('descricao').value.trim();
+      const valor = parseFloat(document.getElementById('valor').value);
+      if (!descricao) { msgDiv.innerHTML = '<div class="error-msg">Digite a descrição</div>'; return; }
+      if (!valor || valor <= 0) { msgDiv.innerHTML = '<div class="error-msg">Digite um valor válido</div>'; return; }
       
-      // Tenta carregar dados
-      atualizarSaldoHeader();
-    }
-
-    // ============================================================
-    // UTILITÁRIOS
-    // ============================================================
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    // ============================================================
-    // NAVEGAÇÃO ENTRE TELAS
-    // ============================================================
-    function mudarTela(screenId) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById(`screen-${screenId}`).classList.add('active');
-      
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelector(`.tab[data-screen="${screenId}"]`).classList.add('active');
-      
-      // Carrega dados quando entra na tela
-      if (screenId === 'relatorio') {
-        carregarRelatorio();
-      } else if (screenId === 'historico') {
-        carregarHistorico();
-      } else if (screenId === 'config') {
-        carregarConfiguracao();
-      }
-    }
-
-    // ============================================================
-    // EVENTOS
-    // ============================================================
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        mudarTela(tab.dataset.screen);
+      const resultado = await salvarLancamento({
+        data: document.getElementById('data').value,
+        descricao: descricao,
+        categoria: document.getElementById('categoria').value,
+        valor: valor,
+        tipo: document.querySelector('.tipo-btn.active').dataset.tipo
       });
+      
+      if (resultado.ok) {
+        msgDiv.innerHTML = '<div class="success-msg">✅ Salvo com sucesso!</div>';
+        document.getElementById('descricao').value = '';
+        document.getElementById('valor').value = '';
+        atualizarSaldo();
+        setTimeout(() => msgDiv.innerHTML = '', 2000);
+      } else {
+        msgDiv.innerHTML = `<div class="error-msg">Erro: ${resultado.erro}</div>`;
+      }
+    };
+
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.onclick = () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(`screen-${tab.dataset.screen}`).classList.add('active');
+        if (tab.dataset.screen === 'relatorio') carregarRelatorio();
+        if (tab.dataset.screen === 'historico') carregarHistorico();
+      };
     });
-    
+
     document.querySelectorAll('.tipo-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.onclick = () => {
         document.querySelectorAll('.tipo-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-      });
+      };
     });
-    
-    document.getElementById('btnSalvar').addEventListener('click', salvarLancamentoHandler);
-    document.getElementById('btnAtualizarRelatorio').addEventListener('click', carregarRelatorio);
-    document.getElementById('btnFiltrarHistorico').addEventListener('click', carregarHistorico);
-    document.getElementById('btnSalvarUrl').addEventListener('click', salvarConfiguracao);
-    
-    // Inicializa mês/ano atual nos filtros
+
+    document.getElementById('btnAtualizarRelatorio').onclick = carregarRelatorio;
+    document.getElementById('btnFiltrarHistorico').onclick = carregarHistorico;
+
     const hoje = new Date();
     document.getElementById('mesFiltro').value = hoje.getMonth() + 1;
     document.getElementById('anoFiltro').value = hoje.getFullYear();
-    document.getElementById('mesHistFiltro').value = hoje.getMonth() + 1;
-    document.getElementById('anoHistFiltro').value = hoje.getFullYear();
     
-    // Tenta carregar saldo se já tiver URL
-    if (API_URL) {
-      atualizarSaldoHeader();
-    }
+    atualizarSaldo();
   </script>
 </body>
 </html>
