@@ -259,10 +259,16 @@
         return data.records.map(record => ({
           id: record.id,
           data: record.fields.Data || "",
-          descricao: record.fields.Descrição || "",
+          descricao: record.fields.Descricao || "",
           categoria: record.fields.Categoria || "Outros",
           valor: record.fields.Valor || 0,
-          tipo: record.fields.Tipo || "despesa"
+          responsavel: record.fields.Responsavel || "",
+          conta: record.fields.Conta || "",
+          forma_pagamento: record.fields.Forma_Pagamento || "",
+          vencimento: record.fields.Vencimento || "",
+          pago: record.fields.Pago || "Não",
+          observacao: record.fields.Observacao || "",
+          tipo: record.fields.Tipo || "Despesa"
         }));
         
       } catch (error) {
@@ -282,7 +288,7 @@
           records: [{
             fields: {
               Data: lancamento.data,
-              Descrição: lancamento.descricao,
+              Descricao: lancamento.descricao,
               Categoria: lancamento.categoria,
               Valor: lancamento.valor,
               Tipo: lancamento.tipo
