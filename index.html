@@ -103,7 +103,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
 </style>
 </head>
 <body>
-
+ 
 <div class="header">
   <div class="hdr-top">
     <h1>💰 Finanças Familiar</h1>
@@ -112,7 +112,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
   <div class="saldo-label">Saldo do mês</div>
   <div class="saldo-valor" id="saldoHeader">R$ —</div>
 </div>
-
+ 
 <div class="tab-bar">
   <button class="tab active" data-s="lancar"><span class="ico">➕</span>Lançar</button>
   <button class="tab" data-s="fixos"><span class="ico">🔄</span>Fixos</button>
@@ -121,7 +121,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
   <button class="tab" data-s="historico"><span class="ico">📋</span>Histórico</button>
   <button class="tab" data-s="config"><span class="ico">⚙️</span>Config</button>
 </div>
-
+ 
 <!-- LANÇAR -->
 <div id="screen-lancar" class="screen active">
   <div class="card">
@@ -160,7 +160,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
     <button class="btn" id="btnSalvar">💾 Salvar Lançamento</button>
   </div>
 </div>
-
+ 
 <!-- FIXOS -->
 <div id="screen-fixos" class="screen">
   <div class="card">
@@ -169,14 +169,14 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
     <div id="lista-fixos"><div class="loading"><div class="spin"></div><br>Carregando...</div></div>
   </div>
 </div>
-
+ 
 <!-- CARTÕES -->
 <div id="screen-cartoes" class="screen">
   <div id="lista-cartoes" style="padding:16px 12px 0">
     <div class="loading"><div class="spin"></div><br>Carregando...</div>
   </div>
 </div>
-
+ 
 <!-- RELATÓRIO -->
 <div id="screen-relatorio" class="screen">
   <div class="card">
@@ -203,7 +203,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
     <div id="rel-resp"></div>
   </div>
 </div>
-
+ 
 <!-- HISTÓRICO -->
 <div id="screen-historico" class="screen">
   <div class="card">
@@ -224,7 +224,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
     <div id="lista-hist"></div>
   </div>
 </div>
-
+ 
 <!-- CONFIG -->
 <div id="screen-config" class="screen">
   <div class="card">
@@ -252,7 +252,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
     <button class="btn btn-ghost" id="btnLimpar">🗑️ Limpar Configuração</button>
   </div>
 </div>
-
+ 
 <script>
 var CFG = {
   key: localStorage.getItem('at_key') || '',
@@ -262,17 +262,17 @@ var CFG = {
 var LISTAS = {};
 var _tmpKey = '', _tmpBase = '', _selectedTable = '';
 var _recData = {};
-
+ 
 function configured() { return !!(CFG.key && CFG.base && CFG.table); }
-
+ 
 function apiUrl(table, extra) {
   return 'https://api.airtable.com/v0/' + CFG.base + '/' + encodeURIComponent(table || CFG.table) + (extra || '');
 }
-
+ 
 function apiHeaders() {
   return { 'Authorization': 'Bearer ' + CFG.key, 'Content-Type': 'application/json' };
 }
-
+ 
 function parseData(str) {
   if (!str) return null;
   // aceita "2026-06-05", "2026-06-05T00:00:00", "2026-06-05 21:00", etc
@@ -281,23 +281,23 @@ function parseData(str) {
   if (parts.length !== 3) return null;
   return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
 }
-
+ 
 function fmt(v) {
   return 'R$ ' + (parseFloat(v) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 }
-
+ 
 function showMsg(id, text, type) {
   var el = document.getElementById(id);
   if (!el) return;
   if (!text) { el.innerHTML = ''; return; }
   el.innerHTML = '<div class="msg ' + (type || 'err') + '">' + text + '</div>';
 }
-
+ 
 function loading(id) {
   var el = document.getElementById(id);
   if (el) el.innerHTML = '<div class="loading"><div class="spin"></div><br>Carregando...</div>';
 }
-
+ 
 // ---- TABS ----
 function goTab(name) {
   document.querySelectorAll('.tab').forEach(function(t) {
@@ -307,7 +307,7 @@ function goTab(name) {
     s.classList.toggle('active', s.id === 'screen-' + name);
   });
 }
-
+ 
 document.querySelectorAll('.tab').forEach(function(tab) {
   tab.addEventListener('click', function() {
     var s = tab.dataset.s;
@@ -324,7 +324,7 @@ document.querySelectorAll('.tab').forEach(function(tab) {
     if (s === 'lancar') atualizarSaldo();
   });
 });
-
+ 
 // ---- TIPO TOGGLE ----
 document.querySelectorAll('.tipo-btn').forEach(function(b) {
   b.addEventListener('click', function() {
@@ -332,7 +332,7 @@ document.querySelectorAll('.tipo-btn').forEach(function(b) {
     b.classList.add('active');
   });
 });
-
+ 
 // ---- FETCH ALL ----
 async function fetchAll(table) {
   var records = [], offset = null;
@@ -346,7 +346,7 @@ async function fetchAll(table) {
   } while (offset);
   return records;
 }
-
+ 
 // ---- LISTAS ----
 async function carregarListas() {
   if (!configured()) return;
@@ -367,7 +367,7 @@ async function carregarListas() {
     fillSelect('f-forma', formas);
   } catch(e) { console.warn('Listas:', e.message); }
 }
-
+ 
 function fillSelect(id, arr) {
   var el = document.getElementById(id);
   if (!el || !arr.length) return;
@@ -379,7 +379,7 @@ function fillSelect(id, arr) {
     el.appendChild(opt);
   });
 }
-
+ 
 // ---- SALVAR LANÇAMENTO ----
 document.getElementById('btnSalvar').addEventListener('click', async function() {
   if (!configured()) return;
@@ -387,44 +387,65 @@ document.getElementById('btnSalvar').addEventListener('click', async function() 
   var valor = parseFloat(document.getElementById('f-valor').value);
   if (!desc) { showMsg('msg-lancar', '⚠️ Preencha a descrição.'); return; }
   if (!valor || valor <= 0) { showMsg('msg-lancar', '⚠️ Digite um valor válido.'); return; }
-
+ 
   var tipo = document.querySelector('.tipo-btn.active').dataset.tipo;
   var dataV = document.getElementById('f-data').value;
-  var fields = {
-    Data: dataV ? dataV.substring(0, 10) : '',
-    Competencia: dataV ? dataV.substring(0, 7) : '',
-    Descricao: desc,
-    Categoria: document.getElementById('f-cat').value,
-    Responsavel: document.getElementById('f-resp').value,
-    Conta: document.getElementById('f-conta').value,
-    Forma_Pagamento: document.getElementById('f-forma').value,
-    Tipo: tipo,
-    Valor: valor,
-    Vencimento: document.getElementById('f-venc').value,
-    Pago: document.getElementById('f-pago').value,
-    Observacao: document.getElementById('f-obs').value.trim()
-  };
-
+  var pago = document.getElementById('f-pago').value;
+ 
   var btn = document.getElementById('btnSalvar');
   btn.disabled = true; btn.textContent = 'Salvando...';
   try {
-    var res = await fetch(apiUrl(CFG.table), {
+    var targetTable, fields, msgOk;
+ 
+    if (pago === 'Não') {
+      // Grava em Recorrentes como pendente
+      targetTable = 'Recorrentes';
+      fields = {
+        Descricao: desc,
+        Categoria: document.getElementById('f-cat').value,
+        Valor: valor,
+        Dia_Vencimento: document.getElementById('f-venc').value ? parseInt(document.getElementById('f-venc').value.split('-')[2]) : null,
+        Conta: document.getElementById('f-conta').value,
+        Ativo: 'Sim'
+      };
+      msgOk = '⏳ Salvo em Pendentes! Aparecerá em Fixos até ser pago.';
+    } else {
+      // Grava em Lançamentos e conta no saldo
+      targetTable = CFG.table;
+      fields = {
+        Data: dataV ? dataV.substring(0, 10) : '',
+        Competencia: dataV ? dataV.substring(0, 7) : '',
+        Descricao: desc,
+        Categoria: document.getElementById('f-cat').value,
+        Responsavel: document.getElementById('f-resp').value,
+        Conta: document.getElementById('f-conta').value,
+        Forma_Pagamento: document.getElementById('f-forma').value,
+        Tipo: tipo,
+        Valor: valor,
+        Vencimento: document.getElementById('f-venc').value,
+        Pago: pago,
+        Observacao: document.getElementById('f-obs').value.trim()
+      };
+      msgOk = '✅ Salvo com sucesso!';
+    }
+ 
+    var res = await fetch(apiUrl(targetTable), {
       method: 'POST', headers: apiHeaders(),
       body: JSON.stringify({ records: [{ fields: fields }] })
     });
     var data = await res.json();
     if (data.error) throw new Error(data.error.message);
-    showMsg('msg-lancar', '✅ Salvo com sucesso!', 'ok');
+    showMsg('msg-lancar', msgOk, 'ok');
     document.getElementById('f-desc').value = '';
     document.getElementById('f-valor').value = '';
     document.getElementById('f-obs').value = '';
     document.getElementById('f-pago').value = 'Não';
-    atualizarSaldo();
-    setTimeout(function() { showMsg('msg-lancar', ''); }, 3000);
+    if (pago === 'Sim') atualizarSaldo();
+    setTimeout(function() { showMsg('msg-lancar', ''); }, 4000);
   } catch(e) { showMsg('msg-lancar', '❌ ' + e.message); }
   finally { btn.disabled = false; btn.textContent = '💾 Salvar Lançamento'; }
 });
-
+ 
 // ---- SALDO HEADER ----
 async function atualizarSaldo() {
   if (!configured()) return;
@@ -437,7 +458,8 @@ async function atualizarSaldo() {
       var f = r.fields;
       if (!f.Data) return;
       var d = parseData(f.Data);
-      if (d.getMonth() + 1 === mes && d.getFullYear() === ano) {
+      if (d && d.getMonth() + 1 === mes && d.getFullYear() === ano) {
+        if (f.Pago !== 'Sim') return; // só conta pagos no saldo
         if (f.Tipo === 'Receita') rec += parseFloat(f.Valor) || 0;
         else desp += parseFloat(f.Valor) || 0;
       }
@@ -448,7 +470,7 @@ async function atualizarSaldo() {
     el.style.color = s >= 0 ? '#86efac' : '#fca5a5';
   } catch(e) { console.error(e); }
 }
-
+ 
 // ---- FIXOS (RECORRENTES) ----
 async function carregarFixos() {
   loading('lista-fixos');
@@ -473,22 +495,22 @@ async function carregarFixos() {
       _recData[r.id] = f;
       var row = document.createElement('div');
       row.className = 'rec-row';
-
+ 
       var info = document.createElement('div');
       info.className = 'rec-info';
       info.innerHTML = '<div class="rec-desc">' + (f.Descricao || '—') + '</div>' +
         '<div class="rec-meta">' + [f.Categoria, f.Conta, f.Dia_Vencimento ? 'Dia ' + f.Dia_Vencimento : ''].filter(Boolean).join(' · ') + '</div>';
-
+ 
       var val = document.createElement('div');
       val.className = 'rec-val';
       val.textContent = fmt(f.Valor);
-
+ 
       var btn = document.createElement('button');
       btn.className = 'btn btn-sm btn-green';
       btn.textContent = 'Lançar';
       btn.dataset.rid = r.id;
       btn.addEventListener('click', function() { lancarFixo(btn); });
-
+ 
       row.appendChild(info);
       row.appendChild(val);
       row.appendChild(btn);
@@ -498,7 +520,7 @@ async function carregarFixos() {
     document.getElementById('lista-fixos').innerHTML = '<div class="empty">❌ ' + e.message + '</div>';
   }
 }
-
+ 
 async function lancarFixo(btn) {
   var f = _recData[btn.dataset.rid];
   if (!f) return;
@@ -525,7 +547,7 @@ async function lancarFixo(btn) {
     showMsg('msg-fixos', 'Erro: ' + e.message);
   }
 }
-
+ 
 // ---- CARTÕES ----
 async function carregarCartoes() {
   var el = document.getElementById('lista-cartoes');
@@ -536,34 +558,49 @@ async function carregarCartoes() {
       el.innerHTML = '<div class="empty" style="padding-top:32px"><div class="empty-ico">💳</div>Nenhum cartão cadastrado no Airtable.</div>';
       return;
     }
+    // Busca lançamentos de crédito do mês atual para calcular fatura
+    var lancRecs = await fetchAll(CFG.table);
+    var hoje = new Date();
+    var mes = hoje.getMonth() + 1, ano = hoje.getFullYear();
+    var faturas = {};
+    lancRecs.forEach(function(r) {
+      var f = r.fields;
+      if (!f.Data || f.Forma_Pagamento !== 'Crédito') return;
+      var d = parseData(f.Data);
+      if (!d || d.getMonth() + 1 !== mes || d.getFullYear() !== ano) return;
+      var nomeCartao = f.Conta || '';
+      faturas[nomeCartao] = (faturas[nomeCartao] || 0) + (parseFloat(f.Valor) || 0);
+    });
+ 
     el.innerHTML = '';
     recs.forEach(function(r) {
       var f = r.fields;
       var nome = f.Cartao || 'Cartão';
       var limite = parseFloat(f.Limite) || 0;
-      var fatura = parseFloat(f.Fatura) || 0;
+      var fatura = faturas[nome] || 0;
       var disp = limite - fatura;
       var pct = limite > 0 ? Math.min(100, fatura / limite * 100) : 0;
       var cor = pct > 80 ? '#fca5a5' : pct > 50 ? '#fde68a' : '#86efac';
-
+ 
       var card = document.createElement('div');
       card.className = 'ct-card';
       card.innerHTML = '<div class="ct-nome">💳 ' + nome + '</div>' +
         '<div class="ct-grid">' +
+          '<div class="ct-info"><div class="ct-lbl">Limite</div><div class="ct-val">' + fmt(limite) + '</div></div>' +
           '<div class="ct-info"><div class="ct-lbl">Disponível</div><div class="ct-val" style="color:' + cor + '">' + fmt(disp) + '</div></div>' +
           '<div class="ct-info"><div class="ct-lbl">Total Fatura</div><div class="ct-val">' + fmt(fatura) + '</div></div>' +
           '<div class="ct-info"><div class="ct-lbl">Fechamento</div><div class="ct-val">Dia ' + (f.Fechamento || '—') + '</div></div>' +
           '<div class="ct-info"><div class="ct-lbl">Vencimento</div><div class="ct-val">Dia ' + (f.Vencimento || '—') + '</div></div>' +
         '</div>' +
         '<div class="lim-bg"><div class="lim-fill" style="width:' + pct.toFixed(0) + '%;background:' + cor + '"></div></div>' +
-        '<div style="font-size:.7rem;opacity:.7;margin-top:6px">' + pct.toFixed(0) + '% do limite utilizado</div>';
+        '<div style="font-size:.7rem;opacity:.7;margin-top:6px">' + pct.toFixed(0) + '% do limite utilizado este mês</div>';
       el.appendChild(card);
     });
   } catch(e) {
     el.innerHTML = '<div class="empty" style="padding-top:32px">❌ ' + e.message + '</div>';
   }
 }
-
+ 
 // ---- RELATÓRIO ----
 async function carregarRelatorio() {
   showMsg('msg-rel', '<div class="loading"><div class="spin"></div><br>Carregando...</div>', 'info');
@@ -602,7 +639,7 @@ async function carregarRelatorio() {
     renderBars('card-resp', 'rel-resp', porResp, true);
   } catch(e) { showMsg('msg-rel', '❌ ' + e.message); }
 }
-
+ 
 function renderBars(cardId, containerId, obj, blue) {
   var entries = Object.entries(obj).sort(function(a, b) { return b[1] - a[1]; });
   var card = document.getElementById(cardId);
@@ -621,7 +658,7 @@ function renderBars(cardId, containerId, obj, blue) {
     el.appendChild(row);
   });
 }
-
+ 
 // ---- HISTÓRICO ----
 async function carregarHistorico() {
   loading('lista-hist');
@@ -642,7 +679,7 @@ async function carregarHistorico() {
     }).sort(function(a, b) {
       return (b.fields.Data || '').localeCompare(a.fields.Data || '');
     });
-
+ 
     var el = document.getElementById('lista-hist');
     if (!lista.length) {
       el.innerHTML = '<div class="empty"><div class="empty-ico">📭</div>Nenhum lançamento encontrado.</div>';
@@ -668,7 +705,7 @@ async function carregarHistorico() {
     showMsg('msg-hist', '❌ ' + e.message);
   }
 }
-
+ 
 // ---- CONFIG ----
 document.getElementById('btnBuscarTabelas').addEventListener('click', async function() {
   var key = document.getElementById('cfg-key').value.trim();
@@ -684,10 +721,10 @@ document.getElementById('btnBuscarTabelas').addEventListener('click', async func
     if (data.error) throw new Error(data.error.message);
     _tmpKey = key; _tmpBase = base; _selectedTable = '';
     document.getElementById('cfg-confirmar').style.display = 'none';
-
+ 
     var container = document.getElementById('lista-tabelas');
     container.innerHTML = '<div style="font-size:.8rem;font-weight:600;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.6px">Selecione a tabela de lançamentos:</div>';
-
+ 
     (data.tables || []).forEach(function(t) {
       var div = document.createElement('div');
       div.className = 'tab-opt';
@@ -704,7 +741,7 @@ document.getElementById('btnBuscarTabelas').addEventListener('click', async func
   } catch(e) { showMsg('msg-cfg', '❌ ' + e.message); }
   finally { btn.disabled = false; btn.textContent = '🔍 Buscar Tabelas'; }
 });
-
+ 
 document.getElementById('btnSalvarCfg').addEventListener('click', function() {
   if (!_selectedTable) { showMsg('msg-cfg', '⚠️ Selecione uma tabela.'); return; }
   localStorage.setItem('at_key', _tmpKey);
@@ -714,17 +751,17 @@ document.getElementById('btnSalvarCfg').addEventListener('click', function() {
   showMsg('msg-cfg', '✅ Configurado com sucesso!', 'ok');
   setTimeout(function() { goTab('lancar'); carregarListas(); atualizarSaldo(); }, 1200);
 });
-
+ 
 document.getElementById('btnLimpar').addEventListener('click', function() {
   if (!confirm('Limpar configuração salva?')) return;
   ['at_key', 'at_base', 'at_table'].forEach(function(k) { localStorage.removeItem(k); });
   CFG = { key: '', base: '', table: '' };
   showMsg('msg-cfg', 'Configuração removida.', 'info');
 });
-
+ 
 document.getElementById('btnRelatorio').addEventListener('click', carregarRelatorio);
 document.getElementById('btnHistorico').addEventListener('click', carregarHistorico);
-
+ 
 // ---- INIT ----
 var hoje = new Date();
 document.getElementById('f-data').value = hoje.toISOString().split('T')[0];
@@ -733,7 +770,7 @@ document.getElementById('r-mes').value = hoje.getMonth() + 1;
 document.getElementById('r-ano').value = hoje.getFullYear();
 var MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 document.getElementById('mesBadge').textContent = MESES[hoje.getMonth()] + ' ' + hoje.getFullYear();
-
+ 
 if (configured()) {
   document.getElementById('cfg-key').value = CFG.key;
   document.getElementById('cfg-base').value = CFG.base;
@@ -746,3 +783,4 @@ if (configured()) {
 </script>
 </body>
 </html>
+ 
