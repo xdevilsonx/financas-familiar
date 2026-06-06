@@ -572,7 +572,7 @@ async function carregarCartoes() {
       var f = r.fields;
       var nome = f.Cartao || 'Cartão';
       var limite = parseFloat(f.Limite) || 0;
-      var fatura = parseFloat(f['1 Fatura'] || f.Fatura) || 0;
+      var fatura = parseFloat(f['Fatura'] || f.Fatura) || 0;
       var disp = limite - fatura;
       var pct = limite > 0 ? Math.min(100, fatura / limite * 100) : 0;
       var cor = pct > 80 ? '#fca5a5' : pct > 50 ? '#fde68a' : '#86efac';
