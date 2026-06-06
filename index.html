@@ -560,7 +560,7 @@ async function carregarCartoes() {
       card.className = 'ct-card';
       card.innerHTML = '<div class="ct-nome">💳 ' + nome + '</div>' +
         '<div class="ct-grid">' +
-          '<div class="ct-info"><div class="ct-lbl">Limite Total</div><div class="ct-val">' + fmt(limite) + '</div></div>' +
+          '<div class="ct-info"><div class="ct-lbl">Limite Total</div><div class="ct-val">' + (f.Fatura || '—') + '</div></div>' +
           '<div class="ct-info"><div class="ct-lbl">Disponível</div><div class="ct-val" style="color:' + cor + '">' + fmt(disp) + '</div></div>' +
           '<div class="ct-info"><div class="ct-lbl">Fechamento</div><div class="ct-val">Dia ' + (f.Fechamento || '—') + '</div></div>' +
           '<div class="ct-info"><div class="ct-lbl">Vencimento</div><div class="ct-val">Dia ' + (f.Vencimento || '—') + '</div></div>' +
