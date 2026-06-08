@@ -723,8 +723,8 @@ async function carregarHistorico() {
       if (tipo && f.Tipo !== tipo) return false;
       return true;
     }).sort(function(a, b) {
-      var da = a.fields.Data ? new Date(a.fields.Data).getTime() : 0;
-      var db = b.fields.Data ? new Date(b.fields.Data).getTime() : 0;
+      var da = a.fields.Data ? (parseData(a.fields.Data) || new Date(0)).getTime() : 0;
+      var db = b.fields.Data ? (parseData(b.fields.Data) || new Date(0)).getTime() : 0;
       return db - da;
     });
 
@@ -738,9 +738,13 @@ async function carregarHistorico() {
       var f = r.fields;
       var isRec = f.Tipo === 'Receita';
       var dataExib = '';
-      if (f.Data) {
-        var dd = new Date(f.Data);
-        dataExib = dd.toLocaleDateString('pt-BR') + ' ' + dd.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+      if (f.Criado_em) {
+        var dc = new Date(f.Criado_em);
+        var dia = dc.toLocaleDateString('pt-BR'); // DD/MM/YYYY local
+        var hora = dc.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+        dataExib = dia + ' ' + hora;
+      } else if (f.Data) {
+        dataExib = fmtData(f.Data);
       }
       var meta = [dataExib, f.Categoria, f.Responsavel, f.Conta].filter(Boolean).join(' · ');
       var row = document.createElement('div');
