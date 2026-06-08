@@ -622,30 +622,20 @@ async function carregarCartoes() {
     recs.forEach(function(r) {
       var f = r.fields;
       var nome = f.Cartao || 'Cartão';
-      var limite = parseFloat(f.Limite) || 0;
+      var disponivel = parseFloat(f.Limite) || 0;
       var fatura = parseFloat(f.Fatura) || 0;
-      var disp = limite - fatura;
-      var pct = limite > 0 ? fatura / limite * 100 : 0;
-      var cor = pct > 100 ? '#fca5a5' : pct > 80 ? '#fde68a' : '#86efac';
+      var cor = disponivel <= 0 ? '#fca5a5' : disponivel < 200 ? '#fde68a' : '#86efac';
 
       var card = document.createElement('div');
       card.className = 'ct-card';
-
-      var dispHtml = disp < 0
-        ? '<div class="ct-val" style="color:#fca5a5">' + fmt(disp) + '</div>'
-        : '<div class="ct-val" style="color:' + cor + '">' + fmt(disp) + '</div>';
-
       card.innerHTML =
         '<div class="ct-nome">💳 ' + nome + (f.Responsavel ? ' <span style="font-size:.7rem;opacity:.6;font-weight:400">(' + f.Responsavel + ')</span>' : '') + '</div>' +
         '<div class="ct-grid">' +
-          '<div class="ct-info"><div class="ct-lbl">Disponível</div>' + dispHtml + '</div>' +
+          '<div class="ct-info"><div class="ct-lbl">Disponível</div><div class="ct-val" style="color:' + cor + '">' + fmt(disponivel) + '</div></div>' +
           '<div class="ct-info"><div class="ct-lbl">Total Fatura</div><div class="ct-val">' + fmt(fatura) + '</div></div>' +
           '<div class="ct-info"><div class="ct-lbl">Fechamento</div><div class="ct-val">' + fmtData(f.Fechamento) + '</div></div>' +
           '<div class="ct-info"><div class="ct-lbl">Vencimento</div><div class="ct-val">' + fmtData(f.Vencimento) + '</div></div>' +
-        '</div>' +
-        '<div class="lim-bg"><div class="lim-fill" style="width:' + Math.min(pct,100).toFixed(0) + '%;background:' + cor + '"></div></div>' +
-        '<div style="font-size:.7rem;opacity:.7;margin-top:6px">Limite: ' + fmt(limite) + ' · ' + pct.toFixed(0) + '% utilizado</div>';
-
+        '</div>';
       el.appendChild(card);
     });
   } catch(e) {
