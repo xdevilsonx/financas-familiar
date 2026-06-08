@@ -408,7 +408,7 @@ document.getElementById('btnSalvar').addEventListener('click', async function() 
     var targetTable, fields, msgOk;
 
     if (pago === 'Não') {
-      // Grava em Recorrentes como pendente
+      // Grava em Recorrentes como pendente com todos os campos
       targetTable = 'Recorrentes';
       fields = {
         Descricao: desc,
@@ -416,6 +416,9 @@ document.getElementById('btnSalvar').addEventListener('click', async function() 
         Valor: valor,
         Dia_Vencimento: document.getElementById('f-venc').value || null,
         Conta: document.getElementById('f-conta').value,
+        Responsavel: document.getElementById('f-resp').value,
+        Forma_Pagamento: document.getElementById('f-forma').value,
+        Observacao: document.getElementById('f-obs').value.trim(),
         Ativo: 'Sim'
       };
       msgOk = '⏳ Salvo em Pendentes! Aparecerá em Fixos até ser pago.';
