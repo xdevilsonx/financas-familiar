@@ -723,7 +723,9 @@ async function carregarHistorico() {
       if (tipo && f.Tipo !== tipo) return false;
       return true;
     }).sort(function(a, b) {
-      return (b.fields.Data || '').localeCompare(a.fields.Data || '');
+      var da = a.fields.Data ? new Date(a.fields.Data).getTime() : 0;
+      var db = b.fields.Data ? new Date(b.fields.Data).getTime() : 0;
+      return db - da;
     });
 
     var el = document.getElementById('lista-hist');
@@ -735,7 +737,12 @@ async function carregarHistorico() {
     lista.forEach(function(r) {
       var f = r.fields;
       var isRec = f.Tipo === 'Receita';
-      var meta = [f.Data, f.Categoria, f.Responsavel, f.Conta].filter(Boolean).join(' · ');
+      var dataExib = '';
+      if (f.Data) {
+        var dd = new Date(f.Data);
+        dataExib = dd.toLocaleDateString('pt-BR') + ' ' + dd.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+      }
+      var meta = [dataExib, f.Categoria, f.Responsavel, f.Conta].filter(Boolean).join(' · ');
       var row = document.createElement('div');
       row.className = 'lanc-row';
       row.innerHTML = '<div class="lanc-info">' +
