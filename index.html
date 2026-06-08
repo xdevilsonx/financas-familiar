@@ -109,7 +109,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
     <h1>💰 Finanças Familiar</h1>
     <div class="mes-badge" id="mesBadge"></div>
   </div>
-  <div class="saldo-label">Saldo do mês</div>
+  <div class="saldo-label">Saldo do mês <button id="btnOlho" onclick="toggleSaldo()" style="background:none;border:none;color:rgba(255,255,255,0.7);cursor:pointer;font-size:.9rem;padding:0 4px;vertical-align:middle">👁️</button></div>
   <div class="saldo-valor" id="saldoHeader">R$ —</div>
 </div>
 
@@ -360,18 +360,19 @@ async function fetchAll(table) {
 async function carregarListas() {
   if (!configured()) return;
   try {
-    var recs = await fetchAll('Listas');
-    var cats = [], resps = [], contas = [], formas = [];
-    recs.forEach(function(r) {
-      var f = r.fields;
-      if (f.Categorias) cats.push(f.Categorias);
-      if (f.Responsaveis) resps.push(f.Responsaveis);
-      if (f.Contas) contas.push(f.Contas);
-      if (f.Formas_Pagamento) formas.push(f.Formas_Pagamento);
-    });
+    var [rCats, rResps, rContas, rFormas] = await Promise.all([
+      fetchAll('Categorias'),
+      fetchAll('Responsaveis'),
+      fetchAll('Contas'),
+      fetchAll('Formas_Pagamento')
+    ]);
+    var cats  = rCats.map(function(r)  { return r.fields.categoria || ''; }).filter(Boolean);
+    var resps = rResps.map(function(r) { return r.fields.Responsavel || ''; }).filter(Boolean);
+    var contas= rContas.map(function(r){ return r.fields.Conta || ''; }).filter(Boolean);
+    var formas= rFormas.map(function(r){ return r.fields.nome || ''; }).filter(Boolean);
     LISTAS = { cats: cats, resps: resps, contas: contas, formas: formas };
-    fillSelect('f-cat', cats);
-    fillSelect('f-resp', resps);
+    fillSelect('f-cat',   cats);
+    fillSelect('f-resp',  resps);
     fillSelect('f-conta', contas);
     fillSelect('f-forma', formas);
   } catch(e) { console.warn('Listas:', e.message); }
@@ -570,10 +571,14 @@ async function lancarFixo(btn) {
     Competencia: dataLanc.substring(0, 7),
     Descricao: f.Descricao || '',
     Categoria: f.Categoria || '',
+    Responsavel: f.Responsavel || '',
     Conta: f.Conta || '',
+    Forma_Pagamento: f.Forma_Pagamento || '',
     Tipo: 'Despesa',
     Valor: parseFloat(f.Valor) || 0,
-    Pago: 'Sim'  // confirmar pagamento ao lançar
+    Vencimento: dataLanc,
+    Pago: 'Sim',
+    Observacao: f.Observacao || ''
   };
   try {
     // 1. Grava em Lançamentos como PAGO
@@ -800,6 +805,26 @@ document.getElementById('btnLimpar').addEventListener('click', function() {
 document.getElementById('btnRelatorio').addEventListener('click', carregarRelatorio);
 document.getElementById('btnHistorico').addEventListener('click', carregarHistorico);
 
+// ---- OCULTAR SALDO ----
+var _saldoOculto = localStorage.getItem('saldo_oculto') === '1';
+function toggleSaldo() {
+  _saldoOculto = !_saldoOculto;
+  localStorage.setItem('saldo_oculto', _saldoOculto ? '1' : '0');
+  aplicarVisibilidadeSaldo();
+}
+function aplicarVisibilidadeSaldo() {
+  var el = document.getElementById('saldoHeader');
+  var btn = document.getElementById('btnOlho');
+  if (_saldoOculto) {
+    el.textContent = '••••••';
+    el.style.color = 'rgba(255,255,255,0.4)';
+    btn.textContent = '🙈';
+  } else {
+    btn.textContent = '👁️';
+    atualizarSaldo();
+  }
+}
+
 // ---- INIT ----
 var hoje = new Date();
 document.getElementById('f-data').value = hoje.toISOString().split('T')[0];
@@ -813,7 +838,7 @@ if (configured()) {
   document.getElementById('cfg-key').value = CFG.key;
   document.getElementById('cfg-base').value = CFG.base;
   carregarListas();
-  atualizarSaldo();
+  aplicarVisibilidadeSaldo();
 } else {
   goTab('config');
   showMsg('msg-cfg', '👋 Bem-vindo! Configure o Airtable para começar.', 'info');
